@@ -16,7 +16,7 @@ public class LengthBetweenValidator implements ConstraintValidator<LengthBetween
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return s.length() >= lengthBetween.min() && s.length() <= lengthBetween.max();
+        return s != null && s.length() >= lengthBetween.min() && s.length() <= lengthBetween.max();
     }
 
 }

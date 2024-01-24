@@ -8,7 +8,7 @@ public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, St
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return s.matches("^\\+\\d+$");
+        return s != null && s.matches("^\\+\\d+$");
     }
 
 }

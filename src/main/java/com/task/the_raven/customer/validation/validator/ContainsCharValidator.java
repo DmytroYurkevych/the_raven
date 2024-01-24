@@ -16,6 +16,10 @@ public class ContainsCharValidator implements ConstraintValidator<ContainsChar, 
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+        if (s == null) {
+            return false;
+        }
+
         long charsCount = s.chars().filter(i -> i == containsChar.ch()).count();
         return charsCount == 1;
     }
