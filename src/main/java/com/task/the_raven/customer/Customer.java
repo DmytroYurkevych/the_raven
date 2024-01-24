@@ -5,13 +5,13 @@ import com.task.the_raven.customer.validation.constraint.LengthBetween;
 import com.task.the_raven.customer.validation.constraint.PhoneNumber;
 import com.task.the_raven.customer.validation.group.CreateGroup;
 import com.task.the_raven.customer.validation.group.UpdateGroup;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Data
@@ -30,7 +30,7 @@ public class Customer {
 
     @LengthBetween(min = 2, max = 100, groups = CreateGroup.class)
     @ContainsChar(ch = '@', groups = CreateGroup.class)
-    @UniqueElements
+    @Column(unique = true)
     private String email;
 
     @LengthBetween(min = 6, max = 14, groups = {UpdateGroup.class, CreateGroup.class})

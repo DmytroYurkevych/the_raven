@@ -1,8 +1,8 @@
 package com.task.the_raven.customer;
 
+import com.task.the_raven.exception.CustomerNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,24 +20,26 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomer(Long id) {
-        return customerRepository.findById(id);
+    public Customer getCustomer(Long id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
     @Transactional
-    public Customer updateCustomer(Long id, Customer customer) {
-        Customer customer1 = customerRepository.findById(id).orElse(new Customer());
+    public Customer updateCustomer(Long id, Customer newCustomer) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id));
 
-        customer1.setFullName(customer.getFullName());
-        customer1.setPhone(customer.getPhone());
+        customer.setFullName(newCustomer.getFullName());
+        customer.setPhone(newCustomer.getPhone());
 
-        customerRepository.save(customer1);
-
-        return customer1;
+        return customerRepository.saveAndFlush(customer);
     }
 
     public void deleteCustomer(Long id) {
-        customerRepository.findById(id).ifPresent(customer1 -> customer1.setIsActive(false));
+        customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException(id))
+                .setIsActive(false);
     }
 
 }
